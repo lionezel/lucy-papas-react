@@ -1,49 +1,109 @@
+import { useFormik } from "formik";
 import React from "react";
+import { styled } from "styled-components";
+
+const Container = styled.div`
+  padding-left: 30%;
+  padding-right: 30%;
+`;
+
+const FormContent = styled.div``;
+
+const Label = styled.label`
+  display: block;
+  margin-top: 20px;
+`;
+
+const Input = styled.input`
+  width: 100%;
+`;
+
+const Select = styled.select`
+  width: 100%;
+`;
+
+const Folder = styled.input`
+  width: 100%;
+  border: 1px solid #111;
+  padding: 5px;
+`;
 
 export const NuevoPlatillo = () => {
+  const formik = useFormik({
+    initialValues: {
+      nombre: "",
+      precio: "",
+      categoria: "",
+      imagen: "",
+      descripcion: "",
+    },
+    onSubmit: (datos) => {
+      console.log(datos);
+    },
+  });
   return (
     <>
       <div>nuevoPlatillo</div>
 
-      <div>
-        <div>
-          <form>
+      <Container>
+        <FormContent>
+          <form onSubmit={formik.handleSubmit}>
             <div>
-              <label htmlFor="nombre">Nombre</label>
-              <input
+              <Label htmlFor="nombre">Nombre</Label>
+              <Input
                 id="nombre"
                 type="text"
                 placeholder="Nombre del producto"
+                value={formik.values.nombre}
+                onChange={formik.handleChange}
               />
             </div>
             <div>
-              <label htmlFor="precio">Precio</label>
-              <input id="precio" type="number" placeholder="$20" min="0" />
+              <Label htmlFor="precio">Precio</Label>
+              <Input
+                id="precio"
+                type="number"
+                placeholder="$20"
+                min="0"
+                value={formik.values.precio}
+                onChange={formik.handleChange}
+              />
             </div>
             <div>
-              <label htmlFor="precio">Categoria</label>
-              <select name="categoria">
+              <Label htmlFor="precio">Categoria</Label>
+              <Select
+                name="categoria"
+                value={formik.values.categoria}
+                onChange={formik.handleChange}
+              >
                 <option value="">Selecciones</option>
                 <option value="hamburguesa">Hamburguesa</option>
                 <option value="salchipapas">Salchipapas</option>
                 <option value="bebidas">Bebidas</option>
-              </select>
+              </Select>
             </div>
             <div>
-              <label htmlFor="imagen">Imagen</label>
-              <input id="imagen" type="file" />
+              <Label htmlFor="imagen">Imagen</Label>
+              <Folder
+                id="imagen"
+                type="file"
+                value={formik.values.imagen}
+                onChange={formik.handleChange}
+              />
             </div>
             <div>
-              <label htmlFor="descripcion">Descripcion</label>
+              <Label htmlFor="descripcion">Descripcion</Label>
               <textarea
                 id="descripcion"
                 placeholder="Descripcion del producto"
+                value={formik.values.descripcion}
+                onChange={formik.handleChange}
               ></textarea>
             </div>
-            <input type="submit" value="Agregar producto" />
+            <Input type="submit" value="Agregar producto" />
           </form>
-        </div>
-      </div>
+        </FormContent>
+      </Container>
     </>
   );
 };
