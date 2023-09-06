@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { styled } from "styled-components";
+import { FirebaseContext } from '../firebase/context'
 
 const Container = styled.div`
   padding-left: 30%;
@@ -35,6 +36,10 @@ const Errors = styled.div`
 `;
 
 export const NuevoPlatillo = () => {
+
+  const { firebase } = useContext(FirebaseContext)
+  console.log(firebase)
+
   const formik = useFormik({
     initialValues: {
       nombre: "",
