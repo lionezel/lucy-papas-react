@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { styled } from "styled-components";
-import { FirebaseContext } from '../firebase/context'
+import { FirebaseContext } from "../firebase/context";
+import { useNavigate } from "react-router";
 
 const Container = styled.div`
   padding-left: 30%;
@@ -37,8 +38,9 @@ const Errors = styled.div`
 
 export const NuevoPlatillo = () => {
 
-  const { firebase } = useContext(FirebaseContext)
-  console.log(firebase)
+  const { firebase } = useContext(FirebaseContext);
+
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -61,7 +63,14 @@ export const NuevoPlatillo = () => {
         .required("La descripcion es obligatorio"),
     }),
     onSubmit: (datos) => {
-      console.log(datos);
+      try {
+        datos.existencia = true;
+        firebase.db.collection("productos").add(datos);
+
+        navigate('/menu')
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
   return (
