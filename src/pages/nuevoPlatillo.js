@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { styled } from "styled-components";
 import { FirebaseContext } from "../firebase/context";
 import { useNavigate } from "react-router";
-import FileUploader from 'react-firebase-file-uploader'
+import FileUploader from "react-firebase-file-uploader";
 
 const Container = styled.div`
   padding-left: 30%;
@@ -38,11 +38,18 @@ const Errors = styled.div`
 `;
 
 export const NuevoPlatillo = () => {
+  //state para las imagenes
+  const [subiendo, setSubiendo] = useState(false);
+  const [progreso, setProgreso] = useState(0);
+  const [urlImagen, setUrlImagen] = useState("");
 
+  //Context con las operaciones de firebase
   const { firebase } = useContext(FirebaseContext);
 
-  const navigate = useNavigate()
+  //Hook para redireccionar
+  const navigate = useNavigate();
 
+  //Validar y leer los datos del formulario
   const formik = useFormik({
     initialValues: {
       nombre: "",
@@ -66,14 +73,43 @@ export const NuevoPlatillo = () => {
     onSubmit: (datos) => {
       try {
         datos.existencia = true;
+        datos.imagen = urlImagen;
         firebase.db.collection("productos").add(datos);
 
-        navigate('/menu')
+        navigate("/menu");
       } catch (error) {
         console.log(error);
       }
     },
   });
+
+  const handleUploadStart = () => {
+    setProgreso(0);
+    setSubiendo(true);
+  };
+  const handleUploadError = (error) => {
+    setSubiendo(false);
+    console.log(error);
+  };
+  const handleUploadSuccess = async (nombre) => {
+    setProgreso(100);
+    setSubiendo(false);
+
+    //Almacenar la URL del destino
+
+    const url = await firebase.storage
+      .ref("productos")
+      .child(nombre)
+      .getDownloadURL();
+
+    console.log(url);
+    setUrlImagen(url);
+  };
+  const handleProgress = (progreso) => {
+    setProgreso(progreso);
+    console.log(progreso);
+  };
+
   return (
     <>
       <div>nuevoPlatillo</div>
@@ -135,14 +171,28 @@ export const NuevoPlatillo = () => {
             ) : null}
             <div>
               <Label htmlFor="imagen">Imagen</Label>
-              <FileUploader 
-                accept ="image/*"
+              <FileUploader
+                accept="image/*"
                 id="imagen"
                 name="imagen"
                 randomizeFilename
                 storageRef={firebase.storage.ref("productos")}
+                onUploadStart={handleUploadStart}
+                onUploadError={handleUploadError}
+                onUploadSuccess={handleUploadSuccess}
+                onProgress={handleProgress}
               />
             </div>
+
+              { subiendo && (
+                <div>
+                  <div style={{ width: `${progreso}%` }}>{progreso} %</div>
+                </div>
+              ) }
+
+              { urlImagen && (
+                <p>La imagen se subio correctamente</p>
+              ) }
 
             <div>
               <Label htmlFor="descripcion">Descripcion</Label>
