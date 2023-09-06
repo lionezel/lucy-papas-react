@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 export const ProductoCard = ({ producto }) => {
-  const { nombre, imagen } = producto;
+  const { nombre, imagen, existencia, categoria, precio, descripcion } = producto;
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -17,11 +17,15 @@ export const ProductoCard = ({ producto }) => {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Lizard
+          {nombre}
         </Typography>
+        <Typography gutterBottom variant="h9" component="div">
+           {categoria}
+        </Typography>
+
+
         <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {descripcion}
         </Typography>
       </CardContent>
       <CardActions>
