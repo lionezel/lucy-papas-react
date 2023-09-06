@@ -28,10 +28,15 @@ export const ProductoCard = ({ producto }) => {
           {descripcion}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
-      </CardActions>
+      <Typography gutterBottom variant="h9" component="div">
+           <label>
+              <span>existencia</span>
+              <select value={existencia}>
+                <option value="true">Disponible</option>
+                <option value="false">No disponible</option>
+              </select>
+           </label>
+        </Typography>
     </Card>
   );
 };
