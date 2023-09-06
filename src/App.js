@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
-import { Ordenes } from "./pages/ordenes";
-import { Menu } from "./pages/menu";
+import { Ordenes } from "./pages/ordenes/ordenes";
+import { Menu } from "./pages/menu/menu";
 import { NuevoPlatillo } from "./pages/nuevoPlatillo";
 import { Sidebar } from "./shared/Sidebar";
 
