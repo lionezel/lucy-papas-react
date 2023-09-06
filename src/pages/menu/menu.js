@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FirebaseContext } from "../../firebase";
+import { ProductoCard } from "../../shared/productos/Productos";
 
 export const Menu = () => {
   //Definir el state para los productos
@@ -33,6 +34,9 @@ export const Menu = () => {
     <>
       <div>menu</div>
       <Link to="/nuevo-platillo">Agregar platillo</Link>
+      {productos.map((producto) => (
+        <ProductoCard key={producto.id} producto={producto} />
+      ))}
     </>
   );
 };
