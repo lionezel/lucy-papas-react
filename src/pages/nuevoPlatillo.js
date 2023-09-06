@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { styled } from "styled-components";
 import { FirebaseContext } from "../firebase/context";
 import { useNavigate } from "react-router";
+import FileUploader from 'react-firebase-file-uploader'
 
 const Container = styled.div`
   padding-left: 30%;
@@ -134,12 +135,12 @@ export const NuevoPlatillo = () => {
             ) : null}
             <div>
               <Label htmlFor="imagen">Imagen</Label>
-              <Folder
+              <FileUploader 
+                accept ="image/*"
                 id="imagen"
-                type="file"
-                value={formik.values.imagen}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                name="imagen"
+                randomizeFilename
+                storageRef={firebase.storage.ref("productos")}
               />
             </div>
 
