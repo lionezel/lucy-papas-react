@@ -29,6 +29,11 @@ const Folder = styled.input`
   padding: 5px;
 `;
 
+const Errors = styled.div`
+  color: red;
+  margin-top: 10px;
+`;
+
 export const NuevoPlatillo = () => {
   const formik = useFormik({
     initialValues: {
@@ -69,8 +74,14 @@ export const NuevoPlatillo = () => {
                 placeholder="Nombre del producto"
                 value={formik.values.nombre}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
             </div>
+            {formik.touched.nombre && formik.errors.nombre ? (
+              <Errors>
+                <p>{formik.errors.nombre}</p>
+              </Errors>
+            ) : null}
             <div>
               <Label htmlFor="precio">Precio</Label>
               <Input
@@ -80,14 +91,21 @@ export const NuevoPlatillo = () => {
                 min="0"
                 value={formik.values.precio}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
             </div>
+            {formik.touched.precio && formik.errors.precio ? (
+              <Errors>
+                <p>{formik.errors.precio}</p>
+              </Errors>
+            ) : null}
             <div>
               <Label htmlFor="precio">Categoria</Label>
               <Select
                 name="categoria"
                 value={formik.values.categoria}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               >
                 <option value="">Selecciones</option>
                 <option value="hamburguesa">Hamburguesa</option>
@@ -95,6 +113,11 @@ export const NuevoPlatillo = () => {
                 <option value="bebidas">Bebidas</option>
               </Select>
             </div>
+            {formik.touched.categoria && formik.errors.categoria ? (
+              <Errors>
+                <p>{formik.errors.categoria}</p>
+              </Errors>
+            ) : null}
             <div>
               <Label htmlFor="imagen">Imagen</Label>
               <Folder
@@ -102,8 +125,10 @@ export const NuevoPlatillo = () => {
                 type="file"
                 value={formik.values.imagen}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
             </div>
+
             <div>
               <Label htmlFor="descripcion">Descripcion</Label>
               <textarea
@@ -111,7 +136,13 @@ export const NuevoPlatillo = () => {
                 placeholder="Descripcion del producto"
                 value={formik.values.descripcion}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               ></textarea>
+              {formik.touched.descripcion && formik.errors.descripcion ? (
+                <Errors>
+                  <p>{formik.errors.descripcion}</p>
+                </Errors>
+              ) : null}
             </div>
             <Input type="submit" value="Agregar producto" />
           </form>
