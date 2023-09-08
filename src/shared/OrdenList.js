@@ -1,30 +1,49 @@
+import { useContext, useState } from "react";
+import { FirebaseContext } from "../firebase";
+
 export const OrdenList = ({ orden }) => {
-    return ( 
-        <>
-        <div>{orden.id}</div>
-        {orden.orden.map(producto => (
-            <p>{producto.cantidad}  {producto.nombre}</p>
-        ))}
+  //State del tiempo de entrega
+  const [tiempoentrega, setTiempoentrega] = useState(0);
 
-        <p>Total a pagar: $ {orden.total}</p>
+  //Context de firebase
+  const { firebase } = useContext(FirebaseContext);
 
-        {orden.tiempoentrega === 0 && (
-            <div>
-                <label>Tiempo de entrega</label>
-                <input 
-                    type="number"
-                    min="1"
-                    placeholder="20"
-                />
+  //Definir el tiempo de entrega en tiempo real
+  const DefinirTiempo = (id) => {
+    try {
+      firebase.db.collection("ordenes").doc(id).update({ tiempoentrega });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-                <button
-                    type="sumbit"
-                >
-                    Definir tiempo
-                </button>
-            </div>
-        )}
-        </>
-     );
-}
- 
+  return (
+    <>
+      <div>{orden.id}</div>
+      {orden.orden.map((producto) => (
+        <p>
+          {producto.cantidad} {producto.nombre}
+        </p>
+      ))}
+
+      <p>Total a pagar: $ {orden.total}</p>
+
+      {orden.tiempoentrega === 0 && (
+        <div>
+          <label>Tiempo de entrega</label>
+          <input
+            type="number"
+            min="1"
+            placeholder="20"
+            value={tiempoentrega}
+            onChange={(e) => setTiempoentrega(parseInt(e.target.value))}
+          />
+
+          <button type="sumbit" onClick={() => DefinirTiempo(orden.id)}>
+            Definir tiempo
+          </button>
+        </div>
+      )}
+    </>
+  );
+};
