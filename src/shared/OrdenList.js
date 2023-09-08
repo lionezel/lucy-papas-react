@@ -44,6 +44,13 @@ export const OrdenList = ({ orden }) => {
           </button>
         </div>
       )}
+
+      {orden.tiempoentrega > 0 && (
+        <p>
+            Tiempo de entrega: 
+            <span>{orden.tiempoentrega} Minutos</span>
+        </p>
+      )}
     </>
   );
 };
