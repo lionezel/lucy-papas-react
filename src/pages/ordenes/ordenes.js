@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FirebaseContext } from "../../firebase";
+import { OrdenList } from "../../shared/OrdenList";
 
 export const Ordenes = () => {
   //Context con las operaciones de firebase
@@ -29,5 +30,12 @@ export const Ordenes = () => {
     setOrdenes(ordenes);
   }
 
-  return <div>ordenes</div>;
+  return (
+    <>
+      <div>ordenes</div>
+      {ordenes.map((orden) => (
+        <OrdenList key={orden.id} orden={orden} />
+      ))}
+    </>
+  );
 };
