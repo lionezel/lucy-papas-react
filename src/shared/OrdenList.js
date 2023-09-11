@@ -17,6 +17,17 @@ export const OrdenList = ({ orden }) => {
     }
   };
 
+  //Complete el estado de una orden
+  const completarOrden = id => {
+    try {
+      firebase.db.collection('ordenes').doc(id).update({
+        completado: true
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <div>{orden.id}</div>
@@ -51,6 +62,12 @@ export const OrdenList = ({ orden }) => {
             <span>{orden.tiempoentrega} Minutos</span>
         </p>
       )}
+
+      { !orden.completado && orden.tiempoentrega > 0  && (
+        <button type="button" onClick={() => completarOrden(orden.id)}>
+          Marcar como lista
+        </button>
+      ) }
     </>
   );
 };
